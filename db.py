@@ -1,13 +1,11 @@
 import pymysql as sql
 
+
 class Database():
     conn = None
     cursor = None
 
     def __init__(self):
-        pass
-
-    def connect(self):
         try:
             self.conn = sql.connect("localhost", "root", "root", "tcgplace")
             self.cursor = self.conn.cursor()
@@ -21,8 +19,10 @@ class Database():
         if not self.cursor:
             raise Exception('No database connection')
         self.cursor.execute("SELECT * FROM magiccard WHERE expansionId = {}".format(expansion_id))
-        data = self.cursor.fetchall()
-        return data
+        data = [dict((self.cursor.description[i][0], value) \
+                  for i, value in enumerate(row)) for row in self.cursor.fetchall()]
+        count = self.cursor.rowcount
+        return data, count
 
     def is_valid_expansion(self, expansion_id=None):
         if not self.cursor:

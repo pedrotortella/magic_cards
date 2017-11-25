@@ -1,23 +1,30 @@
-from flask import Flask, abort
-import db
+from flask import Flask, abort  # Routes
+import db  # MySQL
+import rabbit_mq as mq  #rabiit_mq
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/movecards/<int:expansion_id>', methods=['POST'])
 def move_cards(expansion_id):
+    mq_conn = mq.rabbit_mq()
     conn = db.Database()
-    conn.connect()
     try:
         expansion_name = conn.is_valid_expansion(expansion_id)
         if not expansion_name:
-            # Invalid expansion name
+            # Invalid expansion id
             abort(404)
-        data = conn.get_by_expansion_id(expansion_id)
+        data, count = conn.get_by_expansion_id(expansion_id)
+        for row in data:
+            print(row)
+            mq_conn.publish('', 'moving_cards', json.dumps(row))
+    except Exception as e:
+        raise(e)
     finally:
         conn.close()
     print(expansion_name)
-    return "expansion_name: {a}, number_of_cards: {b}".format(a=expansion_name, b=len(data))
+    return "expansion_name: {a}, number_of_cards: {b}".format(a=expansion_name, b=count)
 
 
 @app.route('/moveall', methods=['GET'])
