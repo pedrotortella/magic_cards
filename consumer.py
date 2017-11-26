@@ -1,16 +1,19 @@
 import rabbit_mq as mq
 from sys import platform
 import getpass
+import json
 
 
 def callback(ch, method, properties, body):
     if platform == "linux" or platform == "linux2":
         with open("/tmp/cards_db.txt", "a") as file:
-            file.write(body.decode('UTF-8') + "\n")
+            for card in json.loads(body.decode('UTF-8')):
+                file.write(json.dumps(card) + "\n")
             file.close()
     elif platform == "win32":
         with open("C:\\Users\\{}\\AppData\\Local\\Temp\\cards_db.txt".format(getpass.getuser()), "a") as file:
-            file.write(body.decode('UTF-8') + "\n")
+            for card in json.loads(body.decode('UTF-8')):
+                file.write(json.dumps(card) + "\n")
             file.close()
     print(" [x] Received %r" % body.decode('UTF-8'))
 
