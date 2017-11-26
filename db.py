@@ -30,3 +30,9 @@ class Database():
         self.cursor.execute("SELECT Name FROM magicexpansion where ExpansionId={}".format(expansion_id))
         data = self.cursor.fetchone()
         return data[0] if data else data
+
+    def get_expansion_ids(self):
+        if not self.cursor:
+            raise Exception('No database connection')
+        self.cursor.execute("SELECT ExpansionId FROM magicexpansion")
+        return [ids[0] for ids in self.cursor.fetchall()]
