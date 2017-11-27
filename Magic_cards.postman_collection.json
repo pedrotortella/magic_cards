@@ -1,0 +1,179 @@
+{
+	"info": {
+		"name": "Magic_cards",
+		"_postman_id": "7cdac6a9-974a-6a74-87c0-dca8f22dba4e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request Valid Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000/card/405105",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"card",
+						"405105"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Request Invalid Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000/card/9999999999",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"card",
+						"9999999999"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Move Invalid Expansion Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000/movecards/188888",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"movecards",
+						"188888"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Move Valid Expansion Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000/movecards/1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"movecards",
+						"1"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Move All Cards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(202);\r",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:5000/moveall",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"moveall"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}

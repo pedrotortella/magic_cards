@@ -52,7 +52,7 @@ def move_all_assync():
 @app.route('/movecards/<int:expansion_id>', methods=['POST'])
 def move_cards(expansion_id):
     expansion_name, count = move_cards_method(expansion_id)
-    return "expansion_name: {a}, number_of_cards: {b}".format(a=expansion_name, b=count)
+    return jsonify({"expansion_name": expansion_name, "number_of_cards": count}),200
 
 
 @app.route('/moveall', methods=['GET'])

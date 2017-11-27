@@ -15,10 +15,18 @@ def callback(ch, method, properties, body):
             for card in json.loads(body.decode('UTF-8')):
                 file.write(json.dumps(card) + "\n")
             file.close()
-    print(" [x] Received %r" % body.decode('UTF-8'))
+    print(" [x] Received message")
 
 
-mq_conn = mq.rabbit_mq()
-mq_conn.channel.basic_consume(callback, queue='moving_cards', no_ack=True)
-print("Waiting for messages. Press CTRL + C to exit")
-mq_conn.channel.start_consuming()
+def consumer():
+    mq_conn = mq.rabbit_mq()
+    mq_conn.channel.basic_consume(callback, queue='moving_cards', no_ack=True)
+    print("Waiting for messages. Press CTRL + C to exit")
+    mq_conn.channel.start_consuming()
+
+if __name__ == '__main__':
+    consumer()
+
+
+
+
